@@ -1,0 +1,9 @@
+---
+interface Props {
+  nameOrSlug: string;
+}
+
+const { nameOrSlug } = Astro.props;
+---
+
+<span>{nameOrSlug.replace(/[{}]/g, '')}</span>

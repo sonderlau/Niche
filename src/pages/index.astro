@@ -1,0 +1,303 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME } from "../consts";
+import { Image } from "astro:assets";
+import bibFileRaw from "../data/publications.bib?raw";
+import { url } from "../utils/paths";
+
+interface Author {
+  first: string;
+  last: string;
+}
+
+interface BibEntry {
+  type: string;
+  key: string;
+  fields: Record<string, string>;
+  authors: Author[];
+}
+
+function parseBibTeX(input: string): BibEntry[] {
+  const entries: BibEntry[] = [];
+  const rawEntries = input.split(/@(\w+)\s*\{/g).slice(1);
+
+  for (let i = 0; i < rawEntries.length; i += 2) {
+    const type = rawEntries[i].trim();
+    const body = rawEntries[i + 1];
+    if (!body) continue;
+
+    const keyMatch = body.match(/^\s*([^,]+),/);
+    const key = keyMatch ? keyMatch[1].trim() : "unknown";
+
+    const fields: Record<string, string> = { title: "Untitled", year: "0000" };
+    const fieldRegex =
+      /(\w+)\s*=\s*(?:\{((?:[^{}]|{[^{}]*})*)\}|"((?:[^"]|\\")*)"|(\d+))/g;
+
+    let match;
+    while ((match = fieldRegex.exec(body)) !== null) {
+      const fieldKey = match[1].toLowerCase();
+      const val = match[2] || match[3] || match[4] || "";
+      fields[fieldKey] = val.replace(/\s+/g, " ").trim();
+    }
+
+    let authors: Author[] = [];
+    if (fields.author) {
+      authors = fields.author.split(/\s+and\s+/i).map((str) => {
+        const parts = str.split(",");
+        if (parts.length > 1) {
+          return { first: parts[1].trim(), last: parts[0].trim() };
+        } else {
+          const names = str.trim().split(" ");
+          const last = names.pop() || "";
+          const first = names.join(" ");
+          return { first, last };
+        }
+      });
+    }
+    entries.push({ type, key, fields, authors });
+  }
+  return entries;
+}
+
+const publications = parseBibTeX(bibFileRaw)
+  .sort((a, b) => {
+    return (parseInt(b.fields.year) || 0) - (parseInt(a.fields.year) || 0);
+  })
+  .slice(0, 3);
+
+const formatAuthor = (auth: Author) => {
+  return auth.first ? `${auth.first} ${auth.last}` : auth.last;
+};
+
+const isAuthorMe = (name: string) => {
+  if (!name || !AUTHOR_NAME) return false;
+  const n = name.toLowerCase().replace(/[^a-z]/g, "");
+  const me = AUTHOR_NAME.toLowerCase().replace(/[^a-z]/g, "");
+  return n.includes(me) || me.includes(n);
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      .author-me {
+        text-decoration: underline;
+        font-weight: 500;
+        color: var(--color-text-main);
+      }
+      .pub-note {
+        font-size: 0.85rem;
+        color: var(--color-text-muted);
+        margin-top: 0.35rem;
+        line-height: 1.5;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+        padding: 4rem 0;
+        margin-bottom: 2rem;
+      }
+      .hero-content {
+        flex: 3;
+      }
+      .hero-image {
+        flex: 2;
+        text-align: center;
+        position: relative;
+      }
+      .hero-image img {
+        width: 280px;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 6px solid var(--color-bg);
+        box-shadow:
+          0 0 0 1px var(--color-border),
+          var(--shadow-lg);
+      }
+
+      .pub-mini-item {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--color-border);
+      }
+      .pub-mini-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+      .pub-title {
+        font-weight: 700;
+        color: var(--color-text-main);
+        display: block;
+        margin-bottom: 0.25rem;
+        font-family: var(--font-serif);
+        font-size: 1.1rem;
+      }
+      .pub-meta {
+        font-size: 0.9rem;
+        color: var(--color-text-muted);
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      @media (max-width: 768px) {
+        .hero {
+          flex-direction: column-reverse;
+          text-align: center;
+          padding: 2rem 0;
+          gap: 2rem;
+        }
+        .hero-image img {
+          width: 200px;
+          height: 200px;
+        }
+        .hero-buttons {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <h1 style="margin-bottom: 0.5rem; font-size: 3rem;">Baitian Liu</h1>
+          <h2
+            style="font-weight: 400; color: var(--color-text-muted); margin-bottom: 1.5rem; font-family: var(--font-sans); letter-spacing: 0.05em; font-size: 1rem; border-bottom: none; padding-bottom: 0; display: block; margin-top: 0;"
+          >
+            PhD Student<br />
+            Nanjing University
+          </h2>
+          <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem;">
+            My research focuses on <strong
+              >Neural Network-based Precipitation Nowcasting</strong
+            > and <strong>AI-based Weather Forecasting</strong>. I'm open to any
+            AI4S topics related to weather and climate.
+          </p>
+          <div class="hero-buttons">
+            <a href={url("/publications")} class="btn">View Publications</a>
+            <a href={url("/projects")} class="btn btn-outline"
+              >Current Projects</a
+            >
+          </div>
+        </div>
+        <div class="hero-image">
+          <Image
+            src={url("/avatar.jpeg")}
+            width={280}
+            height={280}
+            alt="Professor Portrait"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      </section>
+
+      <hr style="margin: 3rem 0; border-top: 1px solid var(--color-border);" />
+
+      <div style="max-width: 800px; margin: 0 auto;">
+        <section>
+          <h2 style="margin-top: 0;">Selected Publications</h2>
+          <div class="publication-list">
+            {
+              publications.length > 0 ? (
+                publications.map((pub) => (
+                  <div class="pub-mini-item">
+                    <span class="pub-title">
+                      {pub.fields.title.replace(/[{}]/g, "")}
+                    </span>
+                    <div class="pub-meta">
+                      {pub.authors.map((auth, i) => {
+                        const name = formatAuthor(auth);
+                        const isMe = isAuthorMe(name);
+                        return (
+                          <>
+                            <span class={isMe ? "author-me" : ""}>
+                              {name.replace(/[{}]/g, "")}
+                            </span>
+                            {i < pub.authors.length - 1 ? ", " : ""}
+                          </>
+                        );
+                      })}
+                      <br />
+                      <span style="font-style: italic; color: var(--color-accent);">
+                        {(
+                          pub.fields.journal ||
+                          pub.fields.booktitle ||
+                          pub.fields.publisher ||
+                          "Preprint"
+                        ).replace(/[{}]/g, "")}
+                      </span>
+                      {pub.fields.year && <span>, {pub.fields.year}</span>}
+                      {pub.fields.note && (
+                        <div class="pub-note">
+                          <strong>Note:</strong>{" "}
+                          {pub.fields.note.replace(/[{}]/g, "")}
+                        </div>
+                      )}
+                      {pub.fields.github || pub.fields.arxiv ? (
+                        <div style="margin-top: 0.35rem; display: flex; gap: 0.75rem;">
+                          {pub.fields.github && (
+                            <a
+                              href={pub.fields.github}
+                              target="_blank"
+                              style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem;"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                              >
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                              </svg>
+                              GitHub
+                            </a>
+                          )}
+                          {pub.fields.arxiv && (
+                            <a
+                              href={pub.fields.arxiv}
+                              target="_blank"
+                              style="display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.85rem;"
+                            >
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 32 32"
+                                fill="currentColor"
+                              >
+                                <path d="M28.23 4.686c-2.835 3.364-5.59 6.622-8.375 9.934 2.835 3.364 5.66 6.739 8.5 10.099a.63.63 0 0 1 .126.367.69.69 0 0 1-.683.674h-5.607a.713.713 0 0 1-.435-.138c-2.173-2.896-4.354-5.785-6.552-8.663-2.119 2.665-4.254 5.32-6.378 7.982a.85.85 0 0 1-.534.281.6.6 0 0 1-.035.005H4.112a.59.59 0 0 1-.456-.21.57.57 0 0 1-.093-.49.756.756 0 0 1 .12-.233l8.134-10.477L3.633 6.083a.667.667 0 0 1-.1-.265.576.576 0 0 1 .085-.438.6.6 0 0 1 .478-.248h5.539a.636.636 0 0 1 .374.125c2.107 2.787 4.224 5.57 6.297 8.383 2.047-2.638 4.105-5.268 6.127-7.923a.79.79 0 0 1 .546-.315h.02a.614.614 0 0 1 .538.271.577.577 0 0 1 .082.443" />
+                              </svg>
+                              arXiv
+                            </a>
+                          )}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No publications found.</p>
+              )
+            }
+          </div>
+          <div style="margin-top: 1.5rem;">
+            <a href={url("/publications")} style="font-weight: 600;"
+              >View Full List &rarr;</a
+            >
+          </div>
+        </section>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

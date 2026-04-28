@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { url } from '../utils/paths';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const years = [...new Set(posts.map((post) => post.data.pubDate.getFullYear()))].sort((a, b) => b - a);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Archive | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<style>
+			.archive-year {
+				margin-top: 3rem;
+				border-bottom: 2px solid var(--color-accent);
+				padding-bottom: 0.5rem;
+			}
+			.archive-list {
+				list-style: none;
+				padding: 0;
+			}
+			.archive-item {
+				display: flex;
+				gap: 1rem;
+				margin: 1rem 0;
+			}
+			.archive-date {
+				color: var(--color-text-muted);
+				font-size: 0.9rem;
+				min-width: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Archive</h1>
+			{years.map((year) => (
+				<section>
+					<h2 class="archive-year">{year}</h2>
+					<ul class="archive-list">
+						{posts.filter((post) => post.data.pubDate.getFullYear() === year).map((post) => (
+							<li class="archive-item">
+								<span class="archive-date">{post.data.pubDate.toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}</span>
+								<a href={url(`/blog/${post.id}/`)}>{post.data.title}</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>

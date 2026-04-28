@@ -1,0 +1,306 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, AUTHOR_NAME } from "../consts";
+import bibFileRaw from "../data/publications.bib?raw";
+
+interface Author {
+  first: string;
+  last: string;
+}
+
+interface BibEntry {
+  type: string;
+  key: string;
+  fields: Record<string, string>;
+  authors: Author[];
+}
+
+function parseBibTeX(input: string): BibEntry[] {
+  const entries: BibEntry[] = [];
+  const rawEntries = input.split(/@(\w+)\s*\{/g).slice(1);
+
+  for (let i = 0; i < rawEntries.length; i += 2) {
+    const type = rawEntries[i].trim();
+    const body = rawEntries[i + 1];
+    if (!body) continue;
+
+    const keyMatch = body.match(/^\s*([^,]+),/);
+    const key = keyMatch ? keyMatch[1].trim() : "unknown";
+
+    const fields: Record<string, string> = { title: "Untitled", year: "0000" };
+
+    const fieldRegex =
+      /(\w+)\s*=\s*(?:\{((?:[^{}]|{[^{}]*})*)\}|"((?:[^"]|\\")*)"|(\d+))/g;
+
+    let match;
+    while ((match = fieldRegex.exec(body)) !== null) {
+      const fieldKey = match[1].toLowerCase();
+      const val = match[2] || match[3] || match[4] || "";
+      fields[fieldKey] = val.replace(/\s+/g, " ").trim();
+    }
+
+    let authors: Author[] = [];
+    if (fields.author) {
+      authors = fields.author.split(/\s+and\s+/i).map((str) => {
+        const parts = str.split(",");
+        if (parts.length > 1) {
+          return { first: parts[1].trim(), last: parts[0].trim() };
+        } else {
+          const names = str.trim().split(" ");
+          const last = names.pop() || "";
+          const first = names.join(" ");
+          return { first, last };
+        }
+      });
+    }
+
+    entries.push({ type, key, fields, authors });
+  }
+  return entries;
+}
+
+const publications = parseBibTeX(bibFileRaw).sort((a, b) => {
+  return (parseInt(b.fields.year) || 0) - (parseInt(a.fields.year) || 0);
+});
+
+const formatAuthor = (auth: Author) => {
+  return auth.first ? `${auth.first} ${auth.last}` : auth.last;
+};
+
+const isAuthorMe = (name: string) => {
+  if (!name || !AUTHOR_NAME) return false;
+  const n = name.toLowerCase().replace(/[^a-z]/g, "");
+  const me = AUTHOR_NAME.toLowerCase().replace(/[^a-z]/g, "");
+  return n.includes(me) || me.includes(n);
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Publications | ${SITE_TITLE}`}
+      description="Academic Publications"
+    />
+    <style>
+      .author-me {
+        text-decoration: underline;
+        font-weight: 500;
+        color: var(--color-text-main);
+      }
+      .pub-note {
+        font-size: 0.85rem;
+        color: var(--color-text-muted);
+        margin-top: 0.35rem;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>Publications</h1>
+      <p>Selected peer-reviewed publications.</p>
+
+      <div class="publication-list">
+        {
+          publications.map((entry) => (
+            <article class="publication-item">
+              <span class="pub-title">
+                {entry.fields.title.replace(/[{}]/g, "")}
+              </span>
+
+              <div class="pub-authors">
+                {entry.authors &&
+                  entry.authors.map((auth, i) => {
+                    const name = formatAuthor(auth);
+                    const isMe = isAuthorMe(name);
+                    return (
+                      <>
+                        <span class={isMe ? "author-me" : ""}>
+                          {name.replace(/[{}]/g, "")}
+                        </span>
+                        {i < entry.authors.length - 1 ? ", " : ""}
+                      </>
+                    );
+                  })}
+              </div>
+
+              <div class="pub-venue">
+                {(
+                  entry.fields.journal ||
+                  entry.fields.booktitle ||
+                  entry.fields.publisher ||
+                  entry.fields.school ||
+                  "Preprint"
+                ).replace(/[{}]/g, "")}
+                {entry.fields.year && <span> ({entry.fields.year})</span>}
+              </div>
+
+              {entry.fields.note && (
+                <div class="pub-note">
+                  <strong>Note:</strong> {entry.fields.note.replace(/[{}]/g, "")}
+                </div>
+              )}
+
+              <div
+                class="pub-links"
+                style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;"
+              >
+                {entry.fields.pdf ? (
+                  <a
+                    href={entry.fields.pdf}
+                    target="_blank"
+                    class="btn-outline"
+                    style="padding: 2px 6px; font-size: 0.85rem; line-height: 1.4;"
+                  >
+                    PDF
+                  </a>
+                ) : entry.fields.url ? (
+                  <a
+                    href={entry.fields.url}
+                    target="_blank"
+                    class="btn-outline"
+                    style="padding: 2px 6px; font-size: 0.85rem; line-height: 1.4;"
+                  >
+                    URL
+                  </a>
+                ) : null}
+
+                {entry.fields.github && (
+                  <a
+                    href={entry.fields.github}
+                    target="_blank"
+                    style="display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.85rem; line-height: 1.4;"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink: 0;"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                  </a>
+                )}
+
+                {entry.fields.arxiv && (
+                  <a
+                    href={entry.fields.arxiv}
+                    target="_blank"
+                    style="display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.85rem; line-height: 1.4;"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 32 32" fill="currentColor" style="flex-shrink: 0;"><path d="M28.23 4.686c-2.835 3.364-5.59 6.622-8.375 9.934 2.835 3.364 5.66 6.739 8.5 10.099a.63.63 0 0 1 .126.367.69.69 0 0 1-.683.674h-5.607a.713.713 0 0 1-.435-.138c-2.173-2.896-4.354-5.785-6.552-8.663-2.119 2.665-4.254 5.32-6.378 7.982a.85.85 0 0 1-.534.281.6.6 0 0 1-.035.005H4.112a.59.59 0 0 1-.456-.21.57.57 0 0 1-.093-.49.756.756 0 0 1 .12-.233l8.134-10.477L3.633 6.083a.667.667 0 0 1-.1-.265.576.576 0 0 1 .085-.438.6.6 0 0 1 .478-.248h5.539a.636.636 0 0 1 .374.125c2.107 2.787 4.224 5.57 6.297 8.383 2.047-2.638 4.105-5.268 6.127-7.923a.79.79 0 0 1 .546-.315h.02a.614.614 0 0 1 .538.271.577.577 0 0 1 .082.443"/></svg>
+                    arXiv
+                  </a>
+                )}
+
+                {entry.fields.doi && (
+                  <a
+                    href={`https://doi.org/${entry.fields.doi}`}
+                    target="_blank"
+                    style="font-size: 0.85rem; line-height: 1.4;"
+                  >
+                    DOI
+                  </a>
+                )}
+
+                <details
+                  name="bibtex"
+                  style="font-size: 0.85rem; line-height: 1.4;"
+                >
+                  <summary style="cursor: pointer; color: var(--color-accent); font-size: inherit;">
+                    BibTeX
+                  </summary>
+                  <div
+                    class="bibtex-panel"
+                    style="position: absolute; background-color: var(--color-bg-offset); border: 1px solid var(--color-border); color: var(--color-text-main); padding: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; z-index: 10; width: 300px; max-height: 250px; overflow-y: auto; overflow-x: auto; margin-top: 0.5rem;"
+                  >
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                      <button
+                        class="copy-bibtex-btn"
+                        data-bibtex={`@${entry.type}{${entry.key},\n  title={${entry.fields.title}},\n  author={${entry.fields.author || ""}},\n  year={${entry.fields.year}}\n}`}
+                        style="background: none; border: none; cursor: pointer; color: var(--color-text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; padding: 0;"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <>
+                            <rect
+                              x="9"
+                              y="9"
+                              width="13"
+                              height="13"
+                              rx="2"
+                              ry="2"
+                            />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                          </>
+                        </svg>
+                        <span class="copy-text">Copy</span>
+                      </button>
+                    </div>
+                    <pre style="margin: 0; font-size: 0.7rem; white-space: pre-wrap; word-break: break-all;">{`@${entry.type}{${entry.key},\n  title={${entry.fields.title}},\n  author={${entry.fields.author || ""}},\n  year={${entry.fields.year}}\n}`}</pre>
+                  </div>
+                </details>
+              </div>
+            </article>
+          ))
+        }
+
+        {publications.length === 0 && <p>No publications found.</p>}
+      </div>
+    </main>
+    <Footer />
+
+    <script>
+      // Ensure only one BibTeX panel is open at a time (fallback for browsers without 'name' attr support)
+      const detailsElements = document.querySelectorAll(
+        'details[name="bibtex"]',
+      );
+      detailsElements.forEach((details) => {
+        details.addEventListener("toggle", () => {
+          if (details.hasAttribute("open")) {
+            detailsElements.forEach((other) => {
+              if (other !== details && other.hasAttribute("open")) {
+                other.removeAttribute("open");
+              }
+            });
+          }
+        });
+      });
+
+      // Copy to clipboard functionality
+      const copyBtns = document.querySelectorAll(".copy-bibtex-btn");
+      copyBtns.forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          e.preventDefault(); // prevent details from toggling if button triggers
+          const bibtex = btn.getAttribute("data-bibtex");
+          const textSpan = btn.querySelector(".copy-text");
+          if (bibtex && textSpan) {
+            try {
+              await navigator.clipboard.writeText(bibtex);
+              textSpan.textContent = "Copied!";
+              btn.setAttribute(
+                "style",
+                "background: none; border: none; cursor: pointer; color: var(--color-accent); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; padding: 0;",
+              );
+              setTimeout(() => {
+                textSpan.textContent = "Copy";
+                btn.setAttribute(
+                  "style",
+                  "background: none; border: none; cursor: pointer; color: var(--color-text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; padding: 0;",
+                );
+              }, 2000);
+            } catch (err) {
+              console.error("Failed to copy", err);
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
