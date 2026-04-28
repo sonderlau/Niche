@@ -7,10 +7,9 @@ dist/
 # dependencies
 node_modules/
 
-# lockfiles (project uses npm, bun.lock is redundant)
+# lockfiles
 bun.lock
 bun.lockb
-package-lock.json
 
 # logs
 npm-debug.log*
