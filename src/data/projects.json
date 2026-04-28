@@ -8,7 +8,7 @@
     "authors": [
       "friedrich-nietzsche"
     ],
-    "heroImage": "/src/assets/blog-placeholder-2.jpg",
+    "heroImage": "/images/blog-placeholder-2.jpg",
     "link": "https://en.wikipedia.org/wiki/On_the_Genealogy_of_Morality"
   },
   {
@@ -20,7 +20,7 @@
     "authors": [
       "arthur-schopenhauer"
     ],
-    "heroImage": "/src/assets/blog-placeholder-3.jpg",
+    "heroImage": "/images/blog-placeholder-3.jpg",
     "link": "https://en.wikipedia.org/wiki/The_World_as_Will_and_Representation"
   },
   {
@@ -32,7 +32,7 @@
     "authors": [
       "immanuel-kant"
     ],
-    "heroImage": "/src/assets/blog-placeholder-4.jpg",
+    "heroImage": "/images/blog-placeholder-4.jpg",
     "link": "https://en.wikipedia.org/wiki/Critique_of_Pure_Reason"
   },
   {
@@ -44,7 +44,7 @@
     "authors": [
       "søren-kierkegaard"
     ],
-    "heroImage": "/src/assets/blog-placeholder-5.jpg",
+    "heroImage": "/images/blog-placeholder-5.jpg",
     "link": "https://en.wikipedia.org/wiki/The_Concept_of_Anxiety"
   },
   {
@@ -56,7 +56,7 @@
     "authors": [
       "georg-hegel"
     ],
-    "heroImage": "/src/assets/blog-placeholder-4.jpg",
+    "heroImage": "/images/blog-placeholder-4.jpg",
     "link": "https://en.wikipedia.org/wiki/The_Phenomenology_of_Spirit"
   },
   {
@@ -68,7 +68,7 @@
     "authors": [
       "bertrand-russell"
     ],
-    "heroImage": "/src/assets/blog-placeholder-2.jpg",
+    "heroImage": "/images/blog-placeholder-2.jpg",
     "link": "https://en.wikipedia.org/wiki/The_Principles_of_Mathematics"
   },
   {
@@ -80,7 +80,7 @@
     "authors": [
       "simone-de-beauvoir"
     ],
-    "heroImage": "/src/assets/blog-placeholder-3.jpg",
+    "heroImage": "/images/blog-placeholder-3.jpg",
     "link": "https://en.wikipedia.org/wiki/The_Second_Sex"
   },
   {
@@ -92,7 +92,7 @@
     "authors": [
       "plato"
     ],
-    "heroImage": "/src/assets/blog-placeholder-4.jpg",
+    "heroImage": "/images/blog-placeholder-4.jpg",
     "link": "https://en.wikipedia.org/wiki/Republic_(Plato)"
   },
   {
@@ -104,7 +104,7 @@
     "authors": [
       "rene-descartes"
     ],
-    "heroImage": "/src/assets/blog-placeholder-5.jpg",
+    "heroImage": "/images/blog-placeholder-5.jpg",
     "link": "https://en.wikipedia.org/wiki/Meditations_on_First_Philosophy"
   },
   {
@@ -116,7 +116,7 @@
     "authors": [
       "john-locke"
     ],
-    "heroImage": "/src/assets/blog-placeholder-2.jpg",
+    "heroImage": "/images/blog-placeholder-2.jpg",
     "link": "https://en.wikipedia.org/wiki/Two_Treatises_of_Government"
   }
 ]
