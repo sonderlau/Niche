@@ -34,7 +34,7 @@ jobs:
       - name: Deploy to sonderlau.github.io
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.GH_PAT }}
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
           external_repository: sonderlau/sonderlau.github.io
           publish_branch: main
           publish_dir: ./dist
