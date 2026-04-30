@@ -205,7 +205,7 @@ const isAuthorMe = (name: string) => {
                   </a>
                 )}
 
-                <button class="bibtex-btn" data-bibtex={entry.raw} style="background: none; border: none; cursor: pointer; color: var(--color-accent); font-size: 0.85rem; line-height: 1.4; padding: 0;">BibTeX</button>
+                <button class="bibtex-btn" data-bibtex={entry.raw} style="background: none; border: none; cursor: pointer; color: var(--color-accent); font-size: 0.85rem; line-height: 1.4; padding: 0; display: inline-flex; align-items: center; gap: 0.25rem;"><span class="bibtex-arrow" style="display: inline-block; transition: transform 0.2s;">&#9654;</span> BibTeX</button>
               </div>
             </article>
           ))
