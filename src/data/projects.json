@@ -10,5 +10,39 @@
     ],
     "heroImage": "/images/blog-placeholder-2.jpg",
     "link": "https://github.com/sonderlau/Synoptix"
+  },
+  {
+    "id": "Surge",
+    "title": "Surge",
+    "year": 2026,
+    "status": "Ongoing",
+    "authors": [
+      "Baitian Liu"
+    ],
+    "description": "SURGE: a novel upstream-conditioned precipitation nowcasting framework designed to tackle extreme storm events",
+    "link": "https://github.com/sonderlau/Surge"
+  },
+  {
+    "id": "FF14ypst",
+    "title": "FF14ypst",
+    "year": 2026,
+    "status": "Ongoing",
+    "authors": [
+      "Baitian Liu"
+    ],
+    "description": "A Typst template for FF14 strategy guides writing and publishing.\n - Easy to write: You only need to focus on the content, and the template will take care of the formatting and layout.\n - Easy to publish: You can export your strategy guide as a **PDF** or HTML file, and share it with your friends or the FF14 community.",
+    "link": "https://github.com/sonderlau/FF14ypst"
+  },
+  {
+    "id": "Niche",
+    "title": "Salvation's Edge: Truth. Raid puzzel solution",
+    "description": "A puzzle solution for the raid puzzle in Destiny 2: Salvation's Edge, which is a part of the Lightfall expansion. The solution is based on the concept of truth and involves a series of steps to solve the puzzle.",
+    "year": 2024,
+    "status": "Completed",
+    "authors": [
+      "Baitian Liu"
+    ],
+    "heroImage": "/images/blog-placeholder-2.jpg",
+    "link": "https://github.com/sonderlau/SalvationEdge-Truth-Solution"
   }
 ]
