@@ -15,6 +15,7 @@ interface BibEntry {
   key: string;
   fields: Record<string, string>;
   authors: Author[];
+  raw: string;
 }
 
 function parseBibTeX(input: string): BibEntry[] {
@@ -56,7 +57,7 @@ function parseBibTeX(input: string): BibEntry[] {
       });
     }
 
-    entries.push({ type, key, fields, authors });
+    entries.push({ type, key, fields, authors, raw: `@${type}{${body}` });
   }
   return entries;
 }
@@ -95,6 +96,9 @@ const isAuthorMe = (name: string) => {
         color: var(--color-text-muted);
         margin-top: 0.35rem;
         line-height: 1.5;
+      }
+      #bibtex-dialog::backdrop {
+        background: rgba(0,0,0,0.4);
       }
     </style>
   </head>
@@ -201,51 +205,7 @@ const isAuthorMe = (name: string) => {
                   </a>
                 )}
 
-                <details
-                  name="bibtex"
-                  style="font-size: 0.85rem; line-height: 1.4;"
-                >
-                  <summary style="cursor: pointer; color: var(--color-accent); font-size: inherit;">
-                    BibTeX
-                  </summary>
-                  <div
-                    class="bibtex-panel"
-                    style="position: absolute; background-color: var(--color-bg-offset); border: 1px solid var(--color-border); color: var(--color-text-main); padding: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px; z-index: 10; width: 300px; max-height: 250px; overflow-y: auto; overflow-x: auto; margin-top: 0.5rem;"
-                  >
-                    <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-                      <button
-                        class="copy-bibtex-btn"
-                        data-bibtex={`@${entry.type}{${entry.key},\n  title={${entry.fields.title}},\n  author={${entry.fields.author || ""}},\n  year={${entry.fields.year}}\n}`}
-                        style="background: none; border: none; cursor: pointer; color: var(--color-text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; padding: 0;"
-                      >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <>
-                            <rect
-                              x="9"
-                              y="9"
-                              width="13"
-                              height="13"
-                              rx="2"
-                              ry="2"
-                            />
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                          </>
-                        </svg>
-                        <span class="copy-text">Copy</span>
-                      </button>
-                    </div>
-                    <pre style="margin: 0; font-size: 0.7rem; white-space: pre-wrap; word-break: break-all;">{`@${entry.type}{${entry.key},\n  title={${entry.fields.title}},\n  author={${entry.fields.author || ""}},\n  year={${entry.fields.year}}\n}`}</pre>
-                  </div>
-                </details>
+                <button class="bibtex-btn" data-bibtex={entry.raw} style="background: none; border: none; cursor: pointer; color: var(--color-accent); font-size: 0.85rem; line-height: 1.4; padding: 0;">BibTeX</button>
               </div>
             </article>
           ))
@@ -256,50 +216,54 @@ const isAuthorMe = (name: string) => {
     </main>
     <Footer />
 
+    <dialog id="bibtex-dialog" style="padding: 0; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-bg); color: var(--color-text-main); max-width: min(720px, 90vw); width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border);">
+        <span style="font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);">BibTeX</span>
+        <button id="bibtex-close" style="background: none; border: none; cursor: pointer; color: var(--color-text-muted); font-size: 1.25rem; line-height: 1; padding: 0;">&times;</button>
+      </div>
+      <pre id="bibtex-content" style="margin: 0; padding: 1.25rem; font-size: 0.78rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word; max-height: 60vh; overflow-y: auto; overflow-x: auto; color: var(--color-text-main);"></pre>
+      <div style="display: flex; justify-content: flex-end; padding: 0.75rem 1.25rem; border-top: 1px solid var(--color-border); gap: 0.5rem;">
+        <button id="bibtex-copy" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid var(--color-accent); background: var(--color-accent); color: #fff; cursor: pointer; font-weight: 500;">Copy to Clipboard</button>
+      </div>
+    </dialog>
+
     <script>
-      // Ensure only one BibTeX panel is open at a time (fallback for browsers without 'name' attr support)
-      const detailsElements = document.querySelectorAll(
-        'details[name="bibtex"]',
-      );
-      detailsElements.forEach((details) => {
-        details.addEventListener("toggle", () => {
-          if (details.hasAttribute("open")) {
-            detailsElements.forEach((other) => {
-              if (other !== details && other.hasAttribute("open")) {
-                other.removeAttribute("open");
-              }
-            });
-          }
+      const dialog = document.getElementById("bibtex-dialog");
+      const content = document.getElementById("bibtex-content");
+      const closeBtn = document.getElementById("bibtex-close");
+      const copyBtn = document.getElementById("bibtex-copy");
+
+      let currentBibTeX = "";
+
+      document.querySelectorAll(".bibtex-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          currentBibTeX = btn.getAttribute("data-bibtex");
+          content.textContent = currentBibTeX;
+          copyBtn.textContent = "Copy to Clipboard";
+          dialog.showModal();
         });
       });
 
-      // Copy to clipboard functionality
-      const copyBtns = document.querySelectorAll(".copy-bibtex-btn");
-      copyBtns.forEach((btn) => {
-        btn.addEventListener("click", async (e) => {
-          e.preventDefault(); // prevent details from toggling if button triggers
-          const bibtex = btn.getAttribute("data-bibtex");
-          const textSpan = btn.querySelector(".copy-text");
-          if (bibtex && textSpan) {
-            try {
-              await navigator.clipboard.writeText(bibtex);
-              textSpan.textContent = "Copied!";
-              btn.setAttribute(
-                "style",
-                "background: none; border: none; cursor: pointer; color: var(--color-accent); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; padding: 0;",
-              );
-              setTimeout(() => {
-                textSpan.textContent = "Copy";
-                btn.setAttribute(
-                  "style",
-                  "background: none; border: none; cursor: pointer; color: var(--color-text-muted); font-size: 0.75rem; display: flex; align-items: center; gap: 4px; padding: 0;",
-                );
-              }, 2000);
-            } catch (err) {
-              console.error("Failed to copy", err);
-            }
-          }
-        });
+      closeBtn.addEventListener("click", () => dialog.close());
+
+      dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) dialog.close();
+      });
+
+      dialog.addEventListener("close", () => {
+        content.textContent = "";
+        currentBibTeX = "";
+      });
+
+      copyBtn.addEventListener("click", async () => {
+        if (!currentBibTeX) return;
+        try {
+          await navigator.clipboard.writeText(currentBibTeX);
+          copyBtn.textContent = "Copied!";
+        } catch (err) {
+          copyBtn.textContent = "Failed to copy";
+          console.error(err);
+        }
       });
     </script>
   </body>

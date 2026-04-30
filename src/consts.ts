@@ -8,7 +8,7 @@ export const AUTHOR_NAME = 'Baitian Liu';
 export const CV_URL = 'https://shravangoswami.com/resume.pdf';
 
 export const CONTACT = {
-  organization: 'Shravan Goswami',
+  organization: 'Sonder Liu',
   addressLines: [
     'Creator of Astro Scholar',
   ],
@@ -26,29 +26,29 @@ export const SOCIAL_LINKS: ReadonlyArray<{
 }> = [
   {
     label: 'GitHub',
-    href: 'https://github.com/shravanngoswamii/astro-scholar',
+    href: 'https://github.com/sonderlau',
     icon: 'github',
   },
   {
     label: 'Email',
-    href: 'mailto:contact@shravangoswami.com',
+    href: 'mailto:sonderlau@foxmail.com',
     icon: 'email',
   },
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/shravangoswami/',
-    icon: 'linkedin',
-  },
-  {
-    label: 'X',
-    href: 'https://x.com/shravangoswamii',
-    icon: 'twitter',
-  },
+  // {
+  //   label: 'LinkedIn',
+  //   href: 'https://www.linkedin.com/in/shravangoswami/',
+  //   icon: 'linkedin',
+  // },
+  // {
+  //   label: 'X',
+  //   href: 'https://x.com/shravangoswamii',
+  //   icon: 'twitter',
+  // },
 ];
 
 export const FOOTER_CREDIT = {
-  designerName: 'Shravan Goswami',
-  designerUrl: 'https://shravangoswami.com',
+  designerName: 'Sonder Liu',
+  designerUrl: 'https://sonderlau.github.io',
   sourceLabel: 'Open Source',
-  sourceUrl: 'https://github.com/shravanngoswamii/astro-scholar',
+  sourceUrl: 'https://github.com/sonderlau/Niche',
 };
