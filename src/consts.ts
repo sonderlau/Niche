@@ -10,10 +10,10 @@ export const CV_URL = 'https://shravangoswami.com/resume.pdf';
 export const CONTACT = {
   organization: 'Sonder Liu',
   addressLines: [
-    'Creator of Astro Scholar',
+    'Nanjing University',
   ],
   emails: [
-    'sonderlau@foxmail.com',
+    'c29uZGVybGF1QGZveG1haWwuY29t', // base64 of sonderlau@foxmail.com
   ],
 };
 
@@ -31,7 +31,7 @@ export const SOCIAL_LINKS: ReadonlyArray<{
   },
   {
     label: 'Email',
-    href: 'mailto:sonderlau@foxmail.com',
+    href: '#',
     icon: 'email',
   },
   // {
