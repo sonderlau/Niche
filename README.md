@@ -1,116 +1,85 @@
-<h1 align="center">Astro Scholar</h1>
+# Niche
 
-<p align="center">
-	A clean, modern Astro portfolio template for researchers, professors, students, and academic teams.
-</p>
+Personal academic blog and portfolio site for Baitian Liu, built with Astro and deployed to [sonderlau.github.io][site].
 
-## Lighthouse
+## What is included
 
-<p align="center">
-	<img src=".github/lighthouse-score.png" alt="Lighthouse score showing 100 across all categories" width="900" />
-</p>
-
-## Why This Template
-
-Most portfolio templates look generic.
-This one is built for academic storytelling:
-
-- Blog posts for ideas, notes, and essays
-- Project pages for research work
-- Publications section from BibTeX
-- Team and author profiles
-- Search and generated OG images
-
-Built with Astro for speed, static output, and straightforward deployment.
-
-## What You Get
-
-- Astro + MDX content workflow
-- Blog with table of contents and reading-friendly layout
+- Blog posts with Markdown/MDX support
 - Projects and publications pages
-- Team page and author data model
-- RSS feed and sitemap generation
-- Search indexing via Pagefind
+- Tags, archive, RSS, sitemap, and Pagefind search
+- Dark/light theme support
+- Typst-powered Chinese and English CV pages
 - GitHub Pages deployment workflow
-- PR preview deployment workflow
 
-## Quick Start
+## Local development
 
-1. Clone the repository.
-2. Install dependencies.
-3. Run the dev server.
+Install dependencies:
 
 ```bash
-npm install
+bun install
+```
+
+Start the dev server:
+
+```bash
 npm run dev
 ```
 
-Then open http://localhost:4321/astro-scholar
+Then open [localhost:4321][local].
 
 ## Commands
 
 | Command | Description |
-|---|---|
-| `npm run dev` | Start local dev server |
-| `npm run build` | Build production site |
-| `npm run preview` | Preview production build |
+| --- | --- |
+| `npm run dev` | Generate CV assets and start the local dev server |
+| `npm run build` | Generate CV assets and build the production site |
+| `npm run preview` | Preview the production build locally |
+| `npm run cv:build` | Compile Typst CV PDFs and generate CV JSON data |
 | `npm run astro -- <command>` | Run Astro CLI commands |
 
-## Customization Guide
+## Content locations
 
-Update these files first:
+| Path | Purpose |
+| --- | --- |
+| `src/content/blog/` | Blog posts |
+| `src/data/projects.json` | Project entries |
+| `src/data/publications.bib` | Publication records |
+| `src/resume/src/chinese.typ` | Chinese CV source |
+| `src/resume/src/english.typ` | English CV source |
+| `src/consts.ts` | Site title, author, links, and global constants |
+| `src/styles/global.css` | Global theme and typography |
 
-- `src/consts.ts`: site title and global constants
-- `src/data/authors.json`: author profiles
-- `src/data/projects.json`: project entries
-- `src/data/publications.bib`: publication list
-- `src/content/blog/*.md`: blog posts
-- `src/styles/global.css`: theme and typography
+## CV workflow
 
-Layout and components:
+The CV source of truth is in `src/resume/src/*.typ`.
 
-- `src/layouts/BlogPost.astro`: post layout
-- `src/components/Header.astro`: top navigation
-- `src/components/Footer.astro`: footer
+`npm run dev` and `npm run build` both run `npm run cv:build` first. This compiles PDFs into `public/cv/` and regenerates JSON data in `src/data/cv/`, which the `/cv` and `/cv/en` pages render from.
 
 ## Deployment
 
-This repo is ready for GitHub Pages.
+Pushes to `main` run `.github/workflows/deploy.yml`. The workflow installs dependencies, sets up Typst, builds the Astro site, and publishes `dist/` to [sonderlau.github.io][site].
 
-- `main` branch deploys via `.github/workflows/website-deploy.yml`
-- Pull requests deploy preview sites via `.github/workflows/preview.yml`
-
-Base path is configured in `astro.config.mjs`:
-
-- default: `/astro-scholar`
-- PR preview: `/astro-scholar/pr-previews/<PR_NUMBER>`
-
-## Project Structure
+## Project structure
 
 ```text
 src/
-	components/      Reusable UI components
-	content/blog/    Markdown blog content
-	data/            Authors, projects, publications
-	layouts/         Page layouts
-	pages/           Route files
-	styles/          Global styles
-	utils/           Utility helpers
+  components/      Reusable Astro components
+  content/blog/    Blog content
+  data/            Projects, publications, generated CV data
+  layouts/         Page layouts
+  pages/           Route files
+  resume/          Typst CV source and templates
+  styles/          Global styles
+  utils/           Shared utilities
 public/
-	fonts/           Webfonts and static assets
+  cv/              Generated CV PDFs
+  img/             Static images and icons
 ```
-
-## Community
-
-- Contributing guide: [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)
-- Code of conduct: [.github/CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md)
-- Security policy: [.github/SECURITY.md](.github/SECURITY.md)
-- Pull request template: [.github/pull_request_template.md](.github/pull_request_template.md)
-
-## Feedback & Suggestions
-
-If you have any suggestions/feedback, you can contact me via [my email](contact@shravangoswami.com). Alternatively, feel free to open an issue if you find bugs or want to request new features.
 
 ## License
 
-Licensed under the MIT [LICENSE](LICENSE), Copyright © 2026
+This site is based on [Astro Scholar][astro-scholar] and uses the MIT license.
+
+[astro-scholar]: https://github.com/shravanngoswamii/astro-scholar
+[local]: http://localhost:4321
+[site]: https://sonderlau.github.io

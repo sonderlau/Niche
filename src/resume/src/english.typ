@@ -7,7 +7,7 @@
   goal: "Focusing on interdisciplinary research across computer science and meteorology,
     exploring innovative AI4Science applications for weather forecasting and efficient decision-making",
   // If the avatar is not needed, comment out pic_path or set it to empty.
-  pic_path: "/img/avatar.jpeg",
+  pic_path: "/public/img/avatar.jpeg",
 )
 
 #info(

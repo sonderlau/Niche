@@ -2,7 +2,7 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = 'Niche';
-export const SITE_DESCRIPTION = 'The academic portfolio of Baitian Liu.';
+export const SITE_DESCRIPTION = 'Liu is a human and can make mistakes. Please double-check responses.';
 export const AUTHOR_NAME = 'Baitian Liu';
 
 export const CV_URL = '/cv/en';

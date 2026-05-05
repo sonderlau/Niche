@@ -132,8 +132,10 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
       .project-header-row {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 0.75rem;
         margin-bottom: 0.75rem;
+        flex-wrap: wrap;
       }
       .project-year {
         font-size: 0.75rem;
@@ -141,6 +143,9 @@ const isExternal = (href: string) => /^https?:\/\//.test(href);
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.1em;
+      }
+      .project-header-row .project-badge {
+        margin-left: auto;
       }
       .project-card h3 {
         font-family: var(--font-serif);

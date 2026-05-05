@@ -45,7 +45,7 @@ const initM = matchParens(content, "#init(");
 if (initM) {
   cv.name = extractStr(initM.inner, "name:");
   cv.goal = extractStr(initM.inner, "goal:");
-  cv.pic = extractStr(initM.inner, "pic_path:");
+  cv.pic = webPath(extractStr(initM.inner, "pic_path:"));
 }
 
 const infoM = matchParens(content, "#info(");
@@ -158,4 +158,8 @@ function parseArgStrings(inner, allowBracket) {
     }
   }
   return result;
+}
+
+function webPath(path) {
+  return path.startsWith("/public/") ? path.slice("/public".length) : path;
 }

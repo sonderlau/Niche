@@ -7,7 +7,7 @@
   goal: "聚焦计算机与气象的跨学科融合，
     探索AI4Science在气象预测的创新应用，助力高效决策",
   // 如不需要头像，可注释掉上面的 pic_path 行，或者将其置空
-  pic_path: "/img/avatar.jpeg",
+  pic_path: "/public/img/avatar.jpeg",
 )
 
 #info(
