@@ -5,7 +5,7 @@ export const SITE_TITLE = 'Niche';
 export const SITE_DESCRIPTION = 'The academic portfolio of Baitian Liu.';
 export const AUTHOR_NAME = 'Baitian Liu';
 
-export const CV_URL = 'https://shravangoswami.com/resume.pdf';
+export const CV_URL = '/cv/en';
 
 export const CONTACT = {
   organization: 'Baitian Liu',

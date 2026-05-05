@@ -3,6 +3,9 @@
   "type": "module",
   "version": "0.5.0",
   "scripts": {
+    "cv:build": "mkdir -p public/cv src/data/cv && typst compile --root src/resume src/resume/src/chinese.typ public/cv/chinese.pdf && typst compile --root src/resume src/resume/src/english.typ public/cv/english.pdf && node scripts/parse-cv.mjs src/resume/src/chinese.typ src/data/cv/zh.json && node scripts/parse-cv.mjs src/resume/src/english.typ src/data/cv/en.json",
+    "predev": "npm run cv:build",
+    "prebuild": "npm run cv:build",
     "dev": "astro dev",
     "build": "astro build",
     "postbuild": "pagefind --site dist",

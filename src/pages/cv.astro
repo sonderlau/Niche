@@ -1,0 +1,12 @@
+---
+import CVPage from "../components/CVPage.astro";
+import cvData from "../data/cv/zh.json";
+---
+
+<CVPage
+  {...cvData}
+  lang="zh-CN"
+  pdfPath="/cv/chinese.pdf"
+  langSwitchPath="/cv/en"
+  langLabel="EN"
+/>

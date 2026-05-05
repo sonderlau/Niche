@@ -1,0 +1,515 @@
+---
+import { url } from "../utils/paths";
+import "../styles/global.css";
+
+export interface Props {
+  lang: string;
+  pdfPath: string;
+  langSwitchPath: string;
+  langLabel: string;
+  name: string;
+  goal: string;
+  pic: string;
+  info: Array<{ icon: string; link: string; content: string }>;
+  sections: Array<{
+    title: string;
+    type: "items" | "bullets" | "text";
+    items: Array<{
+      title: string;
+      role: string;
+      detail: string;
+      date: string;
+      descs: Array<{ label: string; text: string }>;
+    }>;
+    bullets: string[];
+    text: string[];
+  }>;
+}
+
+const {
+  lang,
+  pdfPath,
+  langSwitchPath,
+  langLabel,
+  name,
+  goal,
+  pic,
+  info,
+  sections,
+} = Astro.props;
+
+const ICONS: Record<string, string> = {
+  fa_email: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="1em" fill="currentColor"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"/></svg>`,
+  fa_phone: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="1em" fill="currentColor"><path d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z"/></svg>`,
+  fa_weixin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height="1em" fill="currentColor"><path d="M385.2 167.2c35.33 0 64 28.66 64 64v96c0 35.34-28.67 64-64 64H246.9c-35.33 0-64-28.66-64-64v-96c0-35.34 28.67-64 64-64h138.3zm-79.1 40v-17.74c0-11.44-8.81-20.45-20.15-21.47-12.83-1.16-23.45 8.86-23.45 21.58v17.63h43.6zm-76.9 0h-17.74c-11.44 0-20.45 8.81-21.47 20.15-1.16 12.83 8.86 23.45 21.58 23.45h17.63v-43.6zm40-76.9v43.6h43.6v-17.74c0-11.44-8.81-20.45-20.15-21.47-12.83-1.16-23.45 8.86-23.45 21.58zm152.8 28.87c-1.03-11.34-10.03-20.15-21.47-20.15h-17.63v43.6h17.63c12.72 0 22.74-10.62 21.58-23.45h-.11zm-96.8 144.63h64c35.34 0 64-28.66 64-64v-96c0-35.34-28.66-64-64-64h-64v224z"/></svg>`,
+  fa_github: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" height="1em" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>`,
+};
+
+function iconSvg(name: string): string {
+  if (name.startsWith("/img/")) {
+    return `<img src="${url(name)}" alt="" height="1em" style="vertical-align:middle" />`;
+  }
+  return ICONS[name] || "";
+}
+
+function isLink(val: string): boolean {
+  return /^(https?:|mailto:|tel:)/.test(val);
+}
+
+function formatText(raw: string): string {
+  let s = raw
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  s = s.replace(/\*([^*]+)\*/g, "<strong>$1</strong>");
+  s = s.replace(/\n/g, "<br />");
+  return s;
+}
+
+function renderInfo(val: string): string {
+  return formatText(val);
+}
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{name} | CV</title>
+    <meta name="description" content={`${name}'s Curriculum Vitae`} />
+  </head>
+  <body>
+    <div class="cv-page">
+      <nav class="cv-toolbar">
+        <div class="cv-toolbar-group">
+          <button type="button" class="cv-toolbar-btn" onclick="history.back()" title="Go back">← Back</button>
+          <a href={url("/")} class="cv-toolbar-btn" title="Home">⌂ Home</a>
+        </div>
+        <div class="cv-toolbar-group">
+          <a href={url(pdfPath)} class="cv-toolbar-btn" download>↓ PDF</a>
+          <a href={url(langSwitchPath)} class="cv-toolbar-btn">{langLabel}</a>
+        </div>
+      </nav>
+
+      <header class="cv-header">
+        <div class="cv-header-main">
+          <h1 class="cv-name">{name}</h1>
+          {
+            goal && <p class="cv-tagline" set:html={renderInfo(goal)} />
+          }
+          <div class="cv-info">
+            {info.map((item, i) => (
+              <>
+                {i > 0 && <span class="cv-info-sep">·</span>}
+                <span class="cv-info-item">
+                  <span class="cv-info-icon" set:html={iconSvg(item.icon)} />
+                  {isLink(item.link) ? (
+                    <a href={url(item.link)} set:html={renderInfo(item.content)} />
+                  ) : (
+                    <span set:html={renderInfo(item.content)} />
+                  )}
+                </span>
+              </>
+            ))}
+          </div>
+        </div>
+        {
+          pic && (
+            <img
+              class="cv-avatar"
+              src={url(pic)}
+              alt={name}
+              width="120"
+              height="120"
+            />
+          )
+        }
+      </header>
+
+      {sections.map((section) => {
+        if (section.type === "items") {
+          return (
+            <section class="cv-section">
+              <h2>{section.title}</h2>
+              {section.items.map((item) => (
+                <div class="cv-item">
+                  <div class="cv-item-row">
+                    <span class="cv-item-title" set:html={renderInfo(item.title)} />
+                    <span class="cv-item-right" set:html={renderInfo(item.role)} />
+                  </div>
+                  <div class="cv-item-row">
+                    <span class="cv-item-left" set:html={renderInfo(item.detail)} />
+                    <span class="cv-item-right" set:html={renderInfo(item.date)} />
+                  </div>
+                  {item.descs.length > 0 && (
+                    <ul class="cv-desc-list">
+                      {item.descs.map((d) => (
+                        <li>
+                          <strong set:html={renderInfo(d.label)} />：<span set:html={renderInfo(d.text)} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </section>
+          );
+        }
+
+        if (section.type === "bullets") {
+          return (
+            <section class="cv-section">
+              <h2>{section.title}</h2>
+              <ul class="cv-pub-list">
+                {section.bullets.map((b) => (
+                  <li set:html={renderInfo(b)} />
+                ))}
+              </ul>
+            </section>
+          );
+        }
+
+        if (section.type === "text") {
+          return (
+            <section class="cv-section">
+              <h2>{section.title}</h2>
+              <div class="cv-self-eval">
+                {section.text.map((t) => (
+                  <p set:html={renderInfo(t)} />
+                ))}
+              </div>
+            </section>
+          );
+        }
+
+        return null;
+      })}
+    </div>
+
+  </body>
+</html>
+
+<style is:global>
+  .cv-page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 1.8rem 2rem;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-text-main);
+    background-color: var(--color-bg);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* --- Typography: lang-specific font stacks --- */
+  /* Chinese CV: clean sans-serif with polished Latin glyphs, no jumpy serif. */
+  :lang(zh-CN) .cv-page {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+      "Noto Sans SC", "Helvetica Neue", Arial, system-ui, -apple-system,
+      sans-serif;
+  }
+
+  /* English CV: classic academic serif, formal and highly readable. */
+  :lang(en) .cv-page {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia,
+      "Times New Roman", serif;
+  }
+
+  /* --- Toolbar --- */
+  .cv-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-sans);
+  }
+
+  .cv-toolbar-group {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .cv-toolbar-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    text-decoration: none;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .cv-toolbar-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-accent-light);
+  }
+
+  /* --- Header --- */
+  .cv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cv-header-main {
+    text-align: center;
+    flex: 1;
+  }
+
+  .cv-avatar {
+    flex-shrink: 0;
+    align-self: flex-end;
+    width: 120px;
+    height: auto;
+    max-height: 160px;
+    border-radius: 4px;
+    object-fit: contain;
+    object-position: center top;
+  }
+
+  .cv-name {
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin: 0 0 0.35rem 0;
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+  }
+
+  .cv-tagline {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: 0 auto 0.8rem auto;
+    max-width: 500px;
+    line-height: 1.5;
+  }
+
+  .cv-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    gap: 0;
+    margin-top: 0.25rem;
+  }
+
+  .cv-info-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .cv-info-item a,
+  .cv-info-item span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    text-decoration: none;
+    color: var(--color-text-muted);
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .cv-info-item a:hover {
+    color: var(--color-accent);
+  }
+
+  .cv-info-sep {
+    margin: 0 0.45rem;
+    user-select: none;
+    color: var(--color-text-muted);
+  }
+
+  .cv-info-icon {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.6;
+  }
+
+  /* --- Sections --- */
+  .cv-section {
+    margin-bottom: 1.2rem;
+  }
+
+  .cv-section h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    padding-bottom: 0.15rem;
+    border-bottom: 1px solid var(--color-text-main);
+  }
+
+  .cv-item {
+    margin-bottom: 0.65rem;
+  }
+
+  .cv-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .cv-item-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .cv-item-left {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .cv-item-right {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .cv-desc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .cv-desc-list li {
+    margin-bottom: 0.2rem;
+    text-align: justify;
+  }
+
+  .cv-desc-list li::before {
+    content: "– ";
+    color: var(--color-text-muted);
+  }
+
+  .cv-pub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .cv-pub-list li {
+    margin-bottom: 0.2rem;
+    text-align: justify;
+  }
+
+  .cv-pub-list li::before {
+    content: "– ";
+    color: var(--color-text-muted);
+  }
+
+  .cv-self-eval p {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    text-align: justify;
+    margin: 0 0 0.5rem 0;
+  }
+
+  /* --- Responsive: tablet and mobile --- */
+  @media (max-width: 600px) {
+    .cv-page {
+      padding: 1.8rem 1rem 1.5rem;
+      font-size: 14px;
+    }
+
+    .cv-toolbar {
+      margin-bottom: 2.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .cv-toolbar-btn {
+      padding: 0.25rem 0.55rem;
+      font-size: 0.75rem;
+      border-radius: 5px;
+    }
+
+    .cv-header {
+      gap: 1rem;
+    }
+
+    .cv-avatar {
+      width: 80px;
+      max-height: 120px;
+    }
+
+    .cv-name {
+      font-size: 1.35rem;
+    }
+
+    .cv-tagline {
+      font-size: 0.8rem;
+    }
+
+    .cv-info {
+      font-size: 0.78rem;
+    }
+
+    .cv-info-sep {
+      margin: 0 0.35rem;
+    }
+
+    .cv-section h2 {
+      font-size: 0.95rem;
+    }
+
+    .cv-item-title {
+      font-size: 0.88rem;
+    }
+
+    .cv-item-left,
+    .cv-item-right,
+    .cv-desc-list,
+    .cv-pub-list,
+    .cv-self-eval p {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .cv-toolbar {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: stretch;
+      margin-bottom: 2rem;
+    }
+
+    .cv-toolbar-group {
+      justify-content: center;
+    }
+
+    .cv-header {
+      gap: 0.75rem;
+    }
+
+    .cv-avatar {
+      width: 68px;
+      max-height: 100px;
+    }
+  }
+
+  /* --- Print --- */
+  @media print {
+    .cv-toolbar {
+      display: none;
+    }
+  }
+</style>

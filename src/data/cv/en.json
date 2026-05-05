@@ -1,0 +1,206 @@
+{
+  "name": "Baitian Liu",
+  "goal": "Focusing on interdisciplinary research across computer science and meteorology,\n    exploring innovative AI4Science applications for weather forecasting and efficient decision-making",
+  "pic": "/img/avatar.jpeg",
+  "info": [
+    {
+      "icon": "fa_email",
+      "link": "mailto:Baitian%20Liu<sonderliu@hdu.edu.cn>",
+      "content": "sonderliu@hdu.edu.cn"
+    },
+    {
+      "icon": "fa_phone",
+      "link": "tel:+86 1331 1079 880",
+      "content": "133 1107 9880"
+    },
+    {
+      "icon": "fa_weixin",
+      "link": "Max1ndex",
+      "content": "Max1ndex"
+    },
+    {
+      "icon": "fa_github",
+      "link": "https://github.com/sonderlau",
+      "content": "sonderlau"
+    }
+  ],
+  "sections": [
+    {
+      "title": "Education",
+      "type": "items",
+      "items": [
+        {
+          "title": "Hangzhou Dianzi University · School of Computer Science",
+          "role": "M.Eng. Student | Software Engineering",
+          "detail": "GPA 3.24/4.00   Advisor: Prof. Haiping Zhang",
+          "date": "2023.09 -- Present",
+          "descs": []
+        },
+        {
+          "title": "Hangzhou Dianzi University Information Engineering School · School of Computer Science",
+          "role": "B.Eng. | Software Engineering",
+          "detail": "GPA 4.2/5.0",
+          "date": "2019.09 -- 2023.06",
+          "descs": []
+        }
+      ],
+      "bullets": [],
+      "text": []
+    },
+    {
+      "title": "Experience",
+      "type": "items",
+      "items": [
+        {
+          "title": "Zhejiang Branch, Chinese Academy of Meteorological Sciences",
+          "role": "Algorithm Development and Research Intern",
+          "detail": "Hangzhou, Zhejiang",
+          "date": "2024.09 -- Present",
+          "descs": [
+            {
+              "label": "Scope",
+              "text": "Based on data resources and expert guidance from the Chinese Academy of Meteorological Sciences, designed and developed deep learning models for precipitation nowcasting, covering data preprocessing, model training, and integration into operational scenarios"
+            },
+            {
+              "label": "Outcomes",
+              "text": "Developed two precipitation nowcasting models for operational pain points and started integrating them into practical meteorological workflows.\n1. Fast multi-lead precipitation nowcasting model (0--2 h): avoids error accumulation from autoregressive forecasting. With adversarial training and multi-lead information embedding, it outperforms traditional numerical weather prediction while providing higher spatiotemporal resolution (1 km, 6 min).\n2. Extreme precipitation forecasting model (0--1 h): shifts modeling from the numerical domain to the frequency domain and introduces a new architecture and optimization strategy for multi-scale precipitation features. It performs strongly on extreme events, especially preserving details at longer lead times.\n"
+            }
+          ]
+        }
+      ],
+      "bullets": [],
+      "text": []
+    },
+    {
+      "title": "Publications & Patents",
+      "type": "bullets",
+      "items": [],
+      "bullets": [
+        "[SIGKDD] *Baitian Liu*, Haiping Zhang, Huiling Yuan, et al. WADEPre: Wavelet-based Decomposition Model for Extreme Precipitation Nowcasting with Multi-Scale Learning. (*Under review, CCF-A*, first author). 2026",
+        "[IJCNN] *Baitian Liu*, Haiping Zhang, et al. AMU-Net: Physics-Aware Adaptive Mamba U-Net for Efficient Multi-Lead Time Precipitation Nowcasting. (*Accepted, CCF-C*, first author). 2026",
+        "[Patent] Xujian Fang, *Baitian Liu*, et al. Extreme precipitation nowcasting method based on wavelet-domain decoupling and multi-curriculum learning. (*Published*, CN121835455A), 2026.",
+        "[Patent] Haiping Zhang, *Baitian Liu*, et al. Multi-lead precipitation nowcasting method based on joint spatiotemporal feature extraction. (*Published*, CN120654887A), 2025.",
+        "[Patent] Haiping Zhang, *Baitian Liu*, et al. Monocular vision planar distance measurement method based on rectangular information. (*Granted*, CN116678370A), 2023.",
+        "[Patent] Liming Guan, *Baitian Liu*, et al. Glass plane velocity measurement method based on binocular telecentric lenses. (*Granted*, CN117110642A), 2023."
+      ],
+      "text": []
+    },
+    {
+      "title": "Selected Projects",
+      "type": "items",
+      "items": [
+        {
+          "title": "AI-based Meteorological Forecasting Models",
+          "role": "Core Algorithm Development and Research",
+          "detail": "Partner: Zhejiang Meteorological Service",
+          "date": "2024.09 -- Present",
+          "descs": [
+            {
+              "label": "Overview",
+              "text": "Collaborated with Zhejiang Meteorological Service to develop deep learning-based meteorological forecasting models for operational forecasting needs, aiming to improve the accuracy and efficiency of precipitation nowcasting"
+            },
+            {
+              "label": "Contribution",
+              "text": "Responsible for radar data preprocessing, quality control, and completeness checks; designed and optimized deep learning models; developed forecast visualization tools and completed operational scenario evaluations"
+            },
+            {
+              "label": "Outcomes",
+              "text": "The model outperformed traditional numerical weather prediction during the 2025 Meiyu season evaluation, reaching 1 km and 6 min spatiotemporal resolution with much lower inference time than numerical models, addressing the real-time limitations of short-term forecasting. Research on diffusion-based probabilistic forecasting is ongoing and is expected to further improve heavy-tailed precipitation prediction"
+            }
+          ]
+        },
+        {
+          "title": "Computer Vision-based Bayberry Object Detection",
+          "role": "Core Algorithm Development and Research",
+          "detail": "Partners: Zhejiang Meteorological Service, Xianju Meteorological Bureau",
+          "date": "2024.12 -- 2025.10",
+          "descs": [
+            {
+              "label": "Overview",
+              "text": "Collaborated with Zhejiang Meteorological Service and Xianju Meteorological Bureau to develop visual algorithms for bayberry maturity detection and deploy them in bayberry orchards"
+            },
+            {
+              "label": "Contribution",
+              "text": "Responsible for algorithm research, feasibility exploration, feature analysis, and post-processing of the collected dataset"
+            },
+            {
+              "label": "Progress",
+              "text": "Built an initial YOLO-based object detection model that meets expected recognition performance in open orchard scenarios across multiple seasons. Maturity prediction and large-scale statistical analysis are under development and may support bayberry sales in the Xianju region"
+            }
+          ]
+        },
+        {
+          "title": "Glass Plane Velocity Measurement with Binocular Telecentric Lenses",
+          "role": "Algorithm Development and Device Integration",
+          "detail": "Partners: Shanghai CEC Electronic System Engineering Co., Ltd.; Rainbow (Hefei) LCD Glass Co., Ltd.",
+          "date": "2023.06 -- 2024.11",
+          "descs": [
+            {
+              "label": "Overview",
+              "text": "Developed a high-precision velocity measurement algorithm for 0.3 mm glass sheets in high-temperature and high-humidity industrial environments, controlling error within 0.6 mm/s"
+            },
+            {
+              "label": "Contribution",
+              "text": "Led the design and implementation of the velocity measurement algorithm, completed telecentric camera and temperature sensor debugging, designed the UI, and deployed the algorithm on an industrial mobile computing platform"
+            },
+            {
+              "label": "Outcomes",
+              "text": "Solved recognition challenges caused by glass transparency. Through precise edge localization and clock synchronization, the system achieved the target measurement accuracy. It ran stably at 80°C and 75% relative humidity, and the insulated enclosure plus self-checking functions significantly reduced defect rates in industrial production"
+            }
+          ]
+        },
+        {
+          "title": "Fast and Accurate Measurement of Australian Redclaw Crayfish via Skeleton Recognition",
+          "role": "Algorithm Development and Device Integration",
+          "detail": "",
+          "date": "2023.10 -- 2024.07",
+          "descs": [
+            {
+              "label": "Overview",
+              "text": "Implemented fast and accurate daily growth measurement for crayfish to support and accelerate breeding of new varieties"
+            },
+            {
+              "label": "Contribution",
+              "text": "Led algorithm design and implementation, including data processing, model training, and supporting device design"
+            },
+            {
+              "label": "Outcomes",
+              "text": "Used skeleton keypoint recognition together with telecentric lenses to accurately locate and measure crayfish claw length. Combined with a staged detection workflow, the system enabled fast and stable crayfish data acquisition and analysis"
+            }
+          ]
+        },
+        {
+          "title": "YOLO-based Rural Miscellaneous Pile Recognition",
+          "role": "Algorithm Development Lead",
+          "detail": "Partner: Yunzhihaihui Information Technology Co., Ltd.",
+          "date": "2023.06 -- 2024.12",
+          "descs": [
+            {
+              "label": "Overview",
+              "text": "Developed a YOLOv8-based detection and recognition system for rural road trash bins, garbage, and miscellaneous piles, including closed-lid and overflow status detection for trash bins, supporting automated supervision of rural streets"
+            },
+            {
+              "label": "Contribution",
+              "text": "Responsible for dataset collection and augmentation, YOLOv8 model tuning to improve miscellaneous pile detection accuracy, and development of dedicated modules for trash bin status detection"
+            },
+            {
+              "label": "Outcomes",
+              "text": "The system achieved over 95% detection rate and 98% accuracy for trash bin closed-lid and overflow detection. It was successfully applied in the digital platform for beautiful countryside governance, significantly improving rural environmental supervision efficiency"
+            }
+          ]
+        }
+      ],
+      "bullets": [],
+      "text": []
+    },
+    {
+      "title": "About",
+      "type": "text",
+      "items": [],
+      "bullets": [],
+      "text": [
+        "During my graduate study, I have built a solid foundation in software engineering and artificial intelligence, and demonstrated strong practical ability and innovation through the *development and deployment of multiple interdisciplinary projects*. I am proficient in deep learning algorithm design, data processing, and system integration. As a *major contributor* to projects in meteorological forecasting, industrial velocity measurement, and environmental monitoring, I have helped deliver systems that were successfully applied in real-world scenarios. I have strong *independent problem-solving ability* and teamwork skills, and can efficiently handle complex technical challenges.\n\nIn future work, I hope to use deep learning to solve interdisciplinary problems in meteorology, industry, and related domains, promoting innovative AI applications in science and producing outcomes with practical value and real-world impact."
+      ]
+    }
+  ]
+}
