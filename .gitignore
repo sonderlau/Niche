@@ -1,21 +1,22 @@
 # build output
 dist/
 
+# generated CV artifacts
+public/cv/*.pdf
+src/resume/src/*.pdf
+
 # generated types
 .astro/
 
 # dependencies
 node_modules/
 
-# lockfiles
-bun.lock
-bun.lockb
-
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+tmp/
 
 # environment variables
 .env
@@ -31,6 +32,10 @@ pnpm-debug.log*
 # project config (local / personal)
 CLAUDE.md
 GEMINI.md
+.opencode/
+AGENTS.md
+.codegraph/
+src/resume/img/
 
 # git hooks (local, not shared)
 .githooks/

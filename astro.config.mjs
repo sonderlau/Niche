@@ -10,6 +10,9 @@ import rehypeKatex from 'rehype-katex';
 export default defineConfig({
 	site: 'https://sonderlau.github.io',
 	base: process.env.BASE_PATH || '/',
+	devToolbar: {
+		enabled: false,
+	},
 	integrations: [
 		mdx(),
 		sitemap()

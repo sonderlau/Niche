@@ -192,10 +192,11 @@ const isAuthorMe = (name: string) => {
         </div>
         <div class="hero-image">
           <Image
-            src={url("/avatar.jpg")}
+            src={url("/avatar.webp")}
             width={280}
             height={280}
             alt="Professor Portrait"
+            loading="eager"
             fetchpriority="high"
             decoding="async"
           />

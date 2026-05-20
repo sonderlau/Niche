@@ -630,11 +630,13 @@ const cvHref = CV_URL ? url(CV_URL) : null;
   }
   .footer-credit a {
     color: var(--color-accent);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 0.08em;
   }
   .footer-credit a:hover {
     color: var(--color-text-main);
-    text-decoration: underline;
+    text-decoration-thickness: 0.12em;
   }
 
   .author-link.author-modal-trigger {

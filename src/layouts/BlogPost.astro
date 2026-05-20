@@ -12,12 +12,11 @@ import { url } from '../utils/paths';
 type Props = CollectionEntry<'blog'>['data'] & { id?: string, headings?: { depth: number; slug: string; text: string }[], toc?: boolean };
 
 const { title, description, pubDate, updatedDate, heroImage, authors, tags, id, headings = [], toc } = Astro.props;
-const fallbackHero = id ? url(`/blog/${id}.png`) : url('/og.png');
 ---
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} image={heroImage} />
 		<style>
 			html {
 				scroll-padding-top: 5.5rem;
@@ -105,13 +104,11 @@ const fallbackHero = id ? url(`/blog/${id}.png`) : url('/og.png');
 		<Header />
 		<main>
 			<article>
-				<div class="hero-image">
-					{heroImage ? (
+				{heroImage && (
+					<div class="hero-image">
 						<Image width={1020} height={510} src={heroImage} alt={title} />
-					) : (
-						<img width={1020} height={510} src={fallbackHero} alt={title} />
-					)}
-				</div>
+					</div>
+				)}
 				<div class="blog-container">
 					<div class="prose-wrapper">
 						<div class="prose">
