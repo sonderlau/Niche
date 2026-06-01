@@ -87,6 +87,30 @@ const imageUrl =
     }
   })();
 </script>
+<script is:inline data-cfasync="false">
+  (() => {
+    if (!("serviceWorker" in navigator)) return;
+
+    const cleanup = async () => {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((registration) => registration.unregister()));
+
+      if ("caches" in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map((name) => caches.delete(name)));
+      }
+
+      if (navigator.serviceWorker.controller && !sessionStorage.getItem("sw-cleaned")) {
+        sessionStorage.setItem("sw-cleaned", "true");
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("load", () => cleanup().catch(() => {}), {
+      once: true,
+    });
+  })();
+</script>
 <style is:inline>
   /* CSS variables inline — available immediately in all modes (dev + prod), before any external CSS */
   :root {
