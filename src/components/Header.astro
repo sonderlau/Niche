@@ -24,7 +24,7 @@ const cvHref = CV_URL ? url(CV_URL) : null;
       {
         cvHref && (
           <div class="dropdown">
-            <HeaderLink href={url("/cv/en")} class="dropbtn">CV</HeaderLink>
+            <HeaderLink href={url("/cv/en")} class="dropbtn">Resume</HeaderLink>
             <div class="dropdown-content">
               <HeaderLink href={url("/cv/en")}>English</HeaderLink>
               <HeaderLink href={url("/cv")}>中文</HeaderLink>
@@ -182,7 +182,7 @@ const cvHref = CV_URL ? url(CV_URL) : null;
     {
       cvHref && (
         <>
-          <a href={url("/cv/en")} class="mobile-menu-section">CV</a>
+          <a href={url("/cv/en")} class="mobile-menu-section">Resume</a>
           <div class="mobile-submenu">
             <a href={url("/cv/en")}>English</a>
             <a href={url("/cv")}>中文</a>

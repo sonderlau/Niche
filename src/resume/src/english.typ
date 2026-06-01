@@ -37,10 +37,17 @@
 #resume_section("Education")
 
 #resume_item(
+  "Nanjing University · School of Atmospheric Sciences",
+  "Ph.D. Student | Atmospheric Science",
+  "Advisor: Prof. Huiling Yuan",
+  "2026.06 -- Present",
+)
+
+#resume_item(
   "Hangzhou Dianzi University · School of Computer Science",
   "M.Eng. Student | Software Engineering",
   "GPA 3.24/4.00   Advisor: Prof. Haiping Zhang",
-  "2023.09 -- Present",
+  "2023.09 -- 2026.06",
 )
 
 #resume_item(
@@ -73,9 +80,8 @@
 
 #resume_section("Publications & Patents")
 
-- [SIGKDD] *Baitian Liu*, Haiping Zhang, Huiling Yuan, et al. WADEPre: Wavelet-based Decomposition Model for Extreme Precipitation Nowcasting with Multi-Scale Learning. (*Under review, CCF-A*, first author). 2026
+- [AAAI] *Baitian Liu*, Haiping Zhang, Huiling Yuan, et al. WADEPre: Wavelet-based Decomposition Model for Extreme Precipitation Nowcasting with Multi-Scale Learning. (*Under review, CCF-A*, first author). 2026
 - [IJCNN] *Baitian Liu*, Haiping Zhang, et al. AMU-Net: Physics-Aware Adaptive Mamba U-Net for Efficient Multi-Lead Time Precipitation Nowcasting. (*Accepted, CCF-C*, first author). 2026
-- [Patent] Xujian Fang, *Baitian Liu*, et al. Extreme precipitation nowcasting method based on wavelet-domain decoupling and multi-curriculum learning. (*Published*, CN121835455A), 2026.
 - [Patent] Haiping Zhang, *Baitian Liu*, et al. Multi-lead precipitation nowcasting method based on joint spatiotemporal feature extraction. (*Published*, CN120654887A), 2025.
 - [Patent] Haiping Zhang, *Baitian Liu*, et al. Monocular vision planar distance measurement method based on rectangular information. (*Granted*, CN116678370A), 2023.
 - [Patent] Liming Guan, *Baitian Liu*, et al. Glass plane velocity measurement method based on binocular telecentric lenses. (*Granted*, CN117110642A), 2023.

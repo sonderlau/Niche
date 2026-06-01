@@ -51,10 +51,18 @@
 #resume_section("教育经历")
 
 #resume_item(
+  "南京大学·大气科学学院",
+  "博士研究生 | 大气科学",
+  "导师：袁慧玲教授",
+  "2026.06 -- 至今",
+)
+
+
+#resume_item(
   "杭州电子科技大学·计算机学院",
   "硕士研究生 | 软件工程",
   "GPA 3.24/4.00   导师：张海平教授",
-  "2023.09 -- 至今",
+  "2023.09 -- 2026.06",
 )
 
 #resume_item(
@@ -86,9 +94,8 @@
 )
 
 #resume_section("论文与专利")
-- [SIGKDD] *Baitian Liu*, Haiping Zhang, Huiling Yuan, et al. WADEPre: Wavelet-based Decomposition Model for Extreme Precipitation Nowcasting with Multi-Scale Learning. (*在投，CCF-A*, 一作). 2026
+- [AAAI] *Baitian Liu*, Haiping Zhang, Huiling Yuan, et al. WADEPre: Wavelet-based Decomposition Model for Extreme Precipitation Nowcasting with Multi-Scale Learning. (*在投，CCF-A*, 一作). 2026
 - [IJCNN] *Baitian Liu*, Haiping Zhang, et al. AMU-Net: Physics-Aware Adaptive Mamba U-Net for Efficient Multi-Lead Time Precipitation Nowcasting. (*已接收，CCF-C*, 一作). 2026
-- [专利] 方绪健，*刘柏田* 等, 一种小波域解耦与多课程学习的极端短临降水预报方法, (*已公开*, CN121835455A), 2026.
 - [专利] 张海平，*刘柏田* 等, 一种基于时间空间联合特征提取的多时效短临降水预测方法, (*已公开*, CN120654887A), 2025.
 - [专利] 张海平，*刘柏田* 等, 一种基于矩形信息的单目视觉平面测距方法, (*已授权*, CN116678370A), 2023.
 - [专利] 管力明，*刘柏田* 等, 一种基于双目远心镜头的玻璃平面测速方法, (*已授权*, CN117110642A), 2023.

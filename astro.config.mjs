@@ -1,6 +1,7 @@
 // @ts-check
 
 import mdx from '@astrojs/mdx';
+import { unified } from '@astrojs/markdown-remark';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import remarkMath from 'remark-math';
@@ -24,8 +25,10 @@ export default defineConfig({
 				dark: 'github-dark',
 			},
 		},
-		remarkPlugins: [remarkMath],
-		rehypePlugins: [rehypeKatex]
+		processor: unified({
+			remarkPlugins: [remarkMath],
+			rehypePlugins: [rehypeKatex],
+		}),
 	},
 	build: {
 		inlineStylesheets: 'always',
